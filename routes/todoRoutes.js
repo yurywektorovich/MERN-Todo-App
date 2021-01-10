@@ -24,9 +24,10 @@ module.exports = (app) => {
 		res.send(todos);
 	});
 
+	let hours = 15;
+	if (["production", "ci"].includes(process.env.NODE_ENV)) hours = 12;
 	app.get("/api/today", requireLogin, async (req, res) => {
-		const today = new Date().setHours(12, 0, 0, 0);
-		console.log(today);
+		const today = new Date().setHours(hours, 0, 0, 0);
 		const todos = await Todo.find({ day: today, done: false }).sort({
 			index: 1,
 		});
@@ -35,7 +36,7 @@ module.exports = (app) => {
 	});
 
 	app.get("/api/tomorrow", requireLogin, async (req, res) => {
-		const today = new Date().setHours(12, 0, 0, 0);
+		const today = new Date().setHours(hours, 0, 0, 0);
 		const tomorrow = new Date(new Date(today).getTime() + 86400000);
 		const todos = await Todo.find({ day: tomorrow, done: false }).sort({
 			index: 1,
@@ -45,7 +46,7 @@ module.exports = (app) => {
 	});
 
 	app.get("/api/week", requireLogin, async (req, res) => {
-		const today = new Date().setHours(12, 0, 0, 0);
+		const today = new Date().setHours(hours, 0, 0, 0);
 		const tomorrow = new Date(new Date(today).getTime() + 86400000);
 		const week = new Date(new Date(today).getTime() + 6.048e8);
 		const todos = await Todo.find({ _user: req.user.id }).then((todos) => {
@@ -61,7 +62,7 @@ module.exports = (app) => {
 	});
 
 	app.get("/api/later", requireLogin, async (req, res) => {
-		const today = new Date().setHours(12, 0, 0, 0);
+		const today = new Date().setHours(hours, 0, 0, 0);
 		const week = new Date(new Date(today).getTime() + 6.048e8);
 		const todos = await Todo.find({ _user: req.user.id }).then((todos) => {
 			return Todo.find({ day: { $gt: week }, done: false }).sort({ index: 1 });
@@ -79,7 +80,7 @@ module.exports = (app) => {
 	});
 
 	app.get("/api/expired", requireLogin, async (req, res) => {
-		const today = new Date().setHours(12, 0, 0, 0);
+		const today = new Date().setHours(hours, 0, 0, 0);
 		const todos = await Todo.find({
 			_user: req.user.id,
 			day: { $lt: today },

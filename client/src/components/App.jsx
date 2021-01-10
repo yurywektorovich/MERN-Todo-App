@@ -16,10 +16,16 @@ const App = (props) => {
 	const darkTheme = createMuiTheme({
 		overrides: {
 			MuiIconButton: { root: { color: "#96aacb" } },
-			MuiInput: { underline: { "&:before": { borderBottomColor: "#3a495e" } } },
+			MuiInput: {
+				root: {
+					"& input::-webkit-inner-spin-button, & input::-webkit-outer-spin-button": {
+						display: "none",
+					},
+				},
+				underline: { "&:before": { borderBottomColor: "#3a495e" } },
+			},
 			MuiInputBase: { root: { "& fieldset": { borderColor: "#3a495e" } } },
 		},
-		input: { color: "white" },
 		palette: {
 			type: "dark",
 			background: { default: "#0f1724", paper: "#1d2637" },
@@ -31,8 +37,10 @@ const App = (props) => {
 			},
 			action: { active: "#96aacb", hover: "#233043", selected: "#233043" },
 			divider: "#96aacb",
-			primary: { main: cyan[500] },
-			secondary: { main: red[500] },
+			common: { white: red[500], black: red[500] },
+			primary: { light: red[500], main: cyan[500], contrastText: red[500] },
+			secondary: { main: red[500], contrastText: red[500] },
+			info: { main: red[500] },
 		},
 	});
 

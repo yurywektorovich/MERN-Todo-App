@@ -2,7 +2,14 @@ import "date-fns";
 import React from "react";
 import DateFnsUtils from "@date-io/date-fns";
 
-import { Card, Box, Button, TextField } from "@material-ui/core";
+import {
+	Card,
+	Box,
+	Button,
+	TextField,
+	Input,
+	Typography,
+} from "@material-ui/core";
 import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
 
 const SubmitForm = (props) => {
@@ -42,11 +49,13 @@ const SubmitForm = (props) => {
 						onChange={handleDateChange}
 					/>
 				</MuiPickersUtilsProvider>
-				<TextField
+				<Typography variant="caption">Repeat Every [n] Day</Typography>
+				<Input
 					fullWidth
 					label="Repeat Every [n] Day"
 					value={repeat}
 					onChange={(e) => setRepeat(e.target.value)}
+					inputProps={{ step: 1, min: 0, max: 365, type: "number" }}
 				/>
 				<Box align="center" mt={1}>
 					<Button type="submit" variant="outlined" color="primary">

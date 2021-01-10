@@ -163,11 +163,6 @@ const SingleTodo = (props) => {
 											const repeatDay = new Date(
 												new Date(currDay).getTime() + oneDay * repeat
 											);
-											const newExpire = new Date(
-												new Date(
-													new Date(repeatDay).getTime() + oneDay
-												).setHours(3, 0, 0, 0)
-											);
 											addTodo(text, repeatDay, range, repeat);
 										}
 									}
