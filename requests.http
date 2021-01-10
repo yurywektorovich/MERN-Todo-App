@@ -1,0 +1,2 @@
+GET http://localhost:5000/api/blogs
+Authorization: token ya29.a0AfH6SMDzR5BbYwEvK6iKT-n6dlvsP7T5ePuROElZeRCRzILFd21a1U918p1Qx_yydi8OaaGvOM61x45TixD0WZ0lMpX9e2lT4_Pee_bZAMwtzE7MvzPSvdpxv-6eeBfPWgZyLdAUK8o-ogkArm_7qxAMFylW21OZVSQXCmo93Lc
