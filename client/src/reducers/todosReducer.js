@@ -25,8 +25,9 @@ const todoReducer = (state = { tasks: [], range: 0 }, action) => {
 		case UPDATE_TODO:
 			return {
 				tasks: [
-					...state.tasks.filter((todo, inx) => todo._id !== action.payload._id),
-					action.payload,
+					...state.tasks.map((todo, inx) => {
+						return todo._id === action.payload._id ? action.payload : todo;
+					}),
 				],
 				range: state.range,
 			};
