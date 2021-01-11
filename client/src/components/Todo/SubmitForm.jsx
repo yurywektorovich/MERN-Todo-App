@@ -58,7 +58,7 @@ const SubmitForm = (props) => {
 					inputProps={{ step: 1, min: 0, max: 365, type: "number" }}
 				/>
 				<Box align="center" mt={1}>
-					<Button type="submit" variant="outlined" color="primary">
+					<Button type="submit" size="small" variant="outlined" color="primary">
 						Submit
 					</Button>
 				</Box>

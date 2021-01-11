@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 const todoSchema = new Schema({
 	_id: { type: Object },
 	content: String,
-	index: Number,
+	index: { type: Number, default: 0 },
 	day: Date,
 	repeat: { type: Number, default: 0 },
 	done: { type: Boolean, default: false },

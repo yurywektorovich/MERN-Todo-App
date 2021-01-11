@@ -34,18 +34,15 @@ export const changeRange = (range) => async (dispatch) => {
 
 export const getLastIndex = () => async (dispatch) => {
 	const order = await axios.get("/api/order");
-	return order.data[0].index + 1 || 0;
+	return order.data.length === 0 ? 0 : order.data[0].index + 1;
 };
 
-export const addTodo = (content, day, repeat, index) => async (dispatch) => {
-	const done = false;
-	const _id = uuid();
-	axios.post("/api/todos", { content, index, day, repeat, done, _id });
+export const orderList = ({ oldIndex, newIndex }) => (dispatch) => {
+	dispatch({ type: REORDER_LIST, payload: { oldIndex, newIndex } });
+};
 
-	dispatch({
-		type: ADD_TODO,
-		payload: { content, index, day, repeat, done, _id },
-	});
+export const reorderTodo = (id, inx) => async () => {
+	await axios.patch(`/api/todos/${id}`, { index: inx });
 };
 
 export const fetchTodos = (range) => async (dispatch) => {
@@ -54,35 +51,46 @@ export const fetchTodos = (range) => async (dispatch) => {
 	dispatch({ type: FETCH_TODOS, payload: res.data });
 };
 
+export const addTodo = (content, day, repeat, index) => async (dispatch) => {
+	const done = false;
+	const _id = uuid();
+
+	dispatch({
+		type: ADD_TODO,
+		payload: { content, index, day, repeat, done, _id },
+	});
+	await axios.post("/api/todos", { content, index, day, repeat, done, _id });
+};
+
 export const updateTodo = (id, content, index, day, repeat, done) => async (
 	dispatch
 ) => {
-	axios.patch(`/api/todos/${id}`, { content, day, repeat });
-
 	dispatch({
 		type: UPDATE_TODO,
 		payload: { _id: id, content, index, day, repeat, done },
 	});
+	await axios.patch(`/api/todos/${id}`, { content, day, repeat });
 };
 
-export const completeTodo = (done, id) => async (dispatch) => {
-	axios.patch(`/api/todos/${id}`, { done });
-
+export const completeTodo = (done, id, range) => async (dispatch) => {
 	dispatch({ type: DELETE_TODO, payload: id });
+	await axios.patch(`/api/todos/${id}`, { done });
+
+	const res = await getRange(range);
+	dispatch({ type: FETCH_TODOS, payload: res.data });
 };
 
 export const deleteTodo = (id) => async (dispatch) => {
-	axios.delete(`/api/todos/${id}`);
-
 	dispatch({ type: DELETE_TODO, payload: id });
+	await axios.delete(`/api/todos/${id}`);
 };
 
-export const reorderTodo = (id, inx) => async () => {
-	axios.patch(`/api/todos/${id}`, { index: inx });
+export const signIn = (userId) => {
+	return { type: SIGN_IN, payload: userId };
 };
 
-export const orderList = ({ oldIndex, newIndex }) => (dispatch) => {
-	dispatch({ type: REORDER_LIST, payload: { oldIndex, newIndex } });
+export const signOut = () => {
+	return { type: SIGN_OUT };
 };
 
 export const addNote = (note) => async (dispatch) => {
@@ -110,12 +118,4 @@ export const updateNote = (id, note) => async (dispatch) => {
 	const res = await axios.get("/api/notes");
 
 	dispatch({ type: FETCH_NOTES, payload: res.data });
-};
-
-export const signIn = (userId) => {
-	return { type: SIGN_IN, payload: userId };
-};
-
-export const signOut = () => {
-	return { type: SIGN_OUT };
 };

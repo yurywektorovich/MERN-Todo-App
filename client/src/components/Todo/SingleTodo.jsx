@@ -64,9 +64,9 @@ const SingleTodo = (props) => {
 		day,
 		done,
 		repeat,
-		range,
 		id,
 		inx,
+		range,
 	} = props;
 	const [isEditing, setEditing] = React.useState(false);
 	const [task, setTask] = React.useState(text);
@@ -155,16 +155,16 @@ const SingleTodo = (props) => {
 								size="small"
 								style={{ margin: "0px 5px 0px 5px" }}
 								onClick={() => {
-									if (done) completeTodo(false, id);
+									if (done) completeTodo(false, id, range);
 									else {
-										completeTodo(true, id);
+										completeTodo(true, id, range);
 										if (repeat > 0) {
 											const oneDay = 86400000;
 											const currDay = new Date(day);
 											const repeatDay = new Date(
 												new Date(currDay).getTime() + oneDay * repeat
 											);
-											addTodo(text, repeatDay, range, repeat);
+											addTodo(text, repeatDay, repeat, inx);
 										}
 									}
 								}}
@@ -172,12 +172,12 @@ const SingleTodo = (props) => {
 								{done ? <Undo /> : <CheckCircleOutline />}
 							</IconButton>
 							<Box alignSelf="center" onClick={() => setEditing(true)}>
-								<Typography variant="h5">{text}</Typography>
+								<Typography variant="body2">{text}</Typography>
 							</Box>
 						</Box>
 						<Box display="flex">
 							<Box style={{ alignSelf: "center", marginRight: 5 }}>
-								<Typography variant="body2">{labelDay}</Typography>
+								<Typography variant="caption">{labelDay}</Typography>
 							</Box>
 							<IconButton
 								size="small"
