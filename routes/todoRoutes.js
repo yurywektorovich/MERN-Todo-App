@@ -36,7 +36,7 @@ module.exports = (app) => {
 	});
 
 	app.get("/api/tomorrow", requireLogin, async (req, res) => {
-		const today = new Date().setHours(hours, 0, 0, 0);
+		let today = new Date().setHours(hours, 0, 0, 0);
 		if (["production", "ci"].includes(process.env.NODE_ENV))
 			today = new Date(new Date(today).getTime() + 86400000);
 		const tomorrow = new Date(new Date(today).getTime() + 86400000);
@@ -48,7 +48,7 @@ module.exports = (app) => {
 	});
 
 	app.get("/api/week", requireLogin, async (req, res) => {
-		const today = new Date().setHours(hours, 0, 0, 0);
+		let today = new Date().setHours(hours, 0, 0, 0);
 		if (["production", "ci"].includes(process.env.NODE_ENV))
 			today = new Date(new Date(today).getTime() + 86400000);
 		const tomorrow = new Date(new Date(today).getTime() + 86400000);
@@ -66,7 +66,7 @@ module.exports = (app) => {
 	});
 
 	app.get("/api/later", requireLogin, async (req, res) => {
-		const today = new Date().setHours(hours, 0, 0, 0);
+		let today = new Date().setHours(hours, 0, 0, 0);
 		if (["production", "ci"].includes(process.env.NODE_ENV))
 			today = new Date(new Date(today).getTime() + 86400000);
 		const week = new Date(new Date(today).getTime() + 6.048e8);
