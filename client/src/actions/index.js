@@ -51,14 +51,17 @@ export const fetchTodos = (range) => async (dispatch) => {
 	dispatch({ type: FETCH_TODOS, payload: res.data });
 };
 
-export const addTodo = (content, day, repeat, index) => async (dispatch) => {
+export const addTodo = (content, day, repeat, index, recreation) => async (
+	dispatch
+) => {
 	const done = false;
 	const _id = uuid();
 
-	dispatch({
-		type: ADD_TODO,
-		payload: { content, index, day, repeat, done, _id },
-	});
+	if (!recreation)
+		dispatch({
+			type: ADD_TODO,
+			payload: { content, index, day, repeat, done, _id },
+		});
 	await axios.post("/api/todos", { content, index, day, repeat, done, _id });
 };
 
@@ -75,9 +78,6 @@ export const updateTodo = (id, content, index, day, repeat, done) => async (
 export const completeTodo = (done, id, range) => async (dispatch) => {
 	dispatch({ type: DELETE_TODO, payload: id });
 	await axios.patch(`/api/todos/${id}`, { done });
-
-	const res = await getRange(range);
-	dispatch({ type: FETCH_TODOS, payload: res.data });
 };
 
 export const deleteTodo = (id) => async (dispatch) => {

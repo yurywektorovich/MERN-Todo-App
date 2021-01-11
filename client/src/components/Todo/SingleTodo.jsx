@@ -164,7 +164,7 @@ const SingleTodo = (props) => {
 											const repeatDay = new Date(
 												new Date(currDay).getTime() + oneDay * repeat
 											);
-											addTodo(text, repeatDay, repeat, inx);
+											addTodo(text, repeatDay, repeat, inx, true);
 										}
 									}
 								}}
