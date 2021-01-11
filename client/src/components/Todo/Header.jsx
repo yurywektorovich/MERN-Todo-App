@@ -12,7 +12,9 @@ import {
 	Button,
 	MenuItem,
 	FormControl,
+	IconButton,
 } from "@material-ui/core";
+import SyncIcon from "@material-ui/icons/Sync";
 
 const Header = (props) => {
 	const { fetchTodos, changeRange, range, numTodos } = props;
@@ -57,9 +59,16 @@ const Header = (props) => {
 			</Card>
 			<Box mt={1} style={{ alignSelf: "center" }}>
 				<Card>
-					<Typography variant="h6" align="center">
-						You have {numTodos} Todos
-					</Typography>
+					<Box display="flex" style={{ justifyContent: "center" }}>
+						<Typography variant="h6">You have {numTodos} Todos</Typography>
+						<IconButton
+							size="small"
+							style={{ marginLeft: 4 }}
+							onClick={() => props.fetchTodos(range)}
+						>
+							<SyncIcon />
+						</IconButton>
+					</Box>
 				</Card>
 			</Box>
 		</Box>

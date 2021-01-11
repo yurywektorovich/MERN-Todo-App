@@ -79,10 +79,14 @@ const SingleTodo = (props) => {
 			const currDay = new Date(day).getTime();
 			const today = new Date(new Date().setHours(15, 0, 0, 0)).getTime();
 			const tomorrow = new Date(new Date(today).getTime() + 86400000).getTime();
+			const yesterday = new Date(
+				new Date(today).getTime() - 86400000
+			).getTime();
 			const week = new Date(new Date(today).getTime() + 6.048e8).getTime();
 
 			if (currDay === today) setLabelDay("Today");
 			else if (currDay === tomorrow) setLabelDay("Tomorrow");
+			else if (currDay === yesterday) setLabelDay("Yesterday");
 			else if (currDay > week)
 				setLabelDay(
 					`${MONTHS[new Date(day).getDay()]} ${new Date(day).getDate()}`
