@@ -22,8 +22,8 @@ module.exports = (app) => {
 		res.send(todos);
 	});
 
-	let hours = 15;
-	if (["production", "ci"].includes(process.env.NODE_ENV)) hours = 12;
+	let hours = 16;
+	if (["production", "ci"].includes(process.env.NODE_ENV)) hours = 13;
 	app.get("/api/today", requireLogin, async (req, res) => {
 		const today = new Date().setHours(hours, 0, 0, 0);
 		const todos = await Todo.find({ day: today, done: false }).sort({
