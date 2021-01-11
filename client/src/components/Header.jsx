@@ -29,15 +29,15 @@ const Header = (props) => {
 			<Box mt={1} align="center">
 				<Box display="flex" style={{ justifyContent: "space-between" }}>
 					<Box>
-						<Link style={{ textDecoration: "none" }} to={"/news"}>
+						{/* <Link style={{ textDecoration: "none" }} to={"/news"}>
 							<Button size="large">NEWS</Button>
-						</Link>
+						</Link> */}
 						<Link style={{ textDecoration: "none" }} to={"/todos"}>
 							<Button size="large">TODOS</Button>
 						</Link>
-						<Link style={{ textDecoration: "none" }} to={"/notes"}>
+						{/* <Link style={{ textDecoration: "none" }} to={"/notes"}>
 							<Button size="large">NOTES</Button>
-						</Link>
+						</Link> */}
 					</Box>
 					<Box>{renderAuth()}</Box>
 				</Box>

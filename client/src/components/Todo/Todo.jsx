@@ -20,13 +20,15 @@ const useStyles = makeStyles((theme) => ({
 
 const Todo = (props) => {
 	const classes = useStyles();
-	const { fetchTodos, addTodo, todos, range } = props;
+	const { fetchTodos, getLastIndex, addTodo, todos, range } = props;
+	const [index, setIndex] = React.useState(0);
 
 	useEffect(() => {
 		fetchTodos(range);
-	}, [fetchTodos, range]);
+		(async () => setIndex(await getLastIndex()))();
+	}, [fetchTodos, range, setIndex, getLastIndex]);
 
-	const handleSubmit = (text, day, repeat) => addTodo(text, day, range, repeat);
+	const handleSubmit = (text, day, repeat) => addTodo(text, day, repeat, index);
 
 	return (
 		<Container className={classes.root}>

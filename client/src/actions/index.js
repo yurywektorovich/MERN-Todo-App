@@ -1,4 +1,5 @@
 import axios from "axios";
+import uuid from "uuid/v4";
 import {
 	REORDER_LIST,
 	SIGN_IN,
@@ -7,6 +8,9 @@ import {
 	FETCH_TODOS,
 	FETCH_NOTES,
 	CHANGE_RANGE,
+	ADD_TODO,
+	DELETE_TODO,
+	UPDATE_TODO,
 } from "./types";
 
 const getRange = (range) => {
@@ -28,17 +32,20 @@ export const changeRange = (range) => async (dispatch) => {
 	dispatch({ type: CHANGE_RANGE, payload: range });
 };
 
-export const addTodo = (content, day, range, repeat) => async (dispatch) => {
-	let index = 0;
-	const { data } = await axios.get("/api/all");
-	if (data.length !== 0) {
-		const order = await axios.get("/api/order");
-		index = order.data[0].index + 1;
-	}
-	await axios.post("/api/todos", { content, index, day, repeat });
-	const res = await getRange(range);
+export const getLastIndex = () => async (dispatch) => {
+	const order = await axios.get("/api/order");
+	return order.data[0].index + 1 || 0;
+};
 
-	dispatch({ type: FETCH_TODOS, payload: res.data });
+export const addTodo = (content, day, repeat, index) => async (dispatch) => {
+	const done = false;
+	const _id = uuid();
+	axios.post("/api/todos", { content, index, day, repeat, done, _id });
+
+	dispatch({
+		type: ADD_TODO,
+		payload: { content, index, day, repeat, done, _id },
+	});
 };
 
 export const fetchTodos = (range) => async (dispatch) => {
@@ -47,31 +54,31 @@ export const fetchTodos = (range) => async (dispatch) => {
 	dispatch({ type: FETCH_TODOS, payload: res.data });
 };
 
-export const completeTodo = (id, done, range) => async (dispatch) => {
-	await axios.patch(`/api/todos/${id}`, { done });
-	const res = await getRange(range);
-
-	dispatch({ type: FETCH_TODOS, payload: res.data });
-};
-
-export const updateTodo = (id, content, range, day, repeat) => async (
+export const updateTodo = (id, content, index, day, repeat, done) => async (
 	dispatch
 ) => {
-	await axios.patch(`/api/todos/${id}`, { content, day, repeat });
-	const res = await getRange(range);
+	axios.patch(`/api/todos/${id}`, { content, day, repeat });
 
-	dispatch({ type: FETCH_TODOS, payload: res.data });
+	dispatch({
+		type: UPDATE_TODO,
+		payload: { _id: id, content, index, day, repeat, done },
+	});
 };
 
-export const deleteTodo = (id, range) => async (dispatch) => {
-	await axios.delete(`/api/todos/${id}`);
-	const res = await getRange(range);
+export const completeTodo = (done, id) => async (dispatch) => {
+	axios.patch(`/api/todos/${id}`, { done });
 
-	dispatch({ type: FETCH_TODOS, payload: res.data });
+	dispatch({ type: DELETE_TODO, payload: id });
+};
+
+export const deleteTodo = (id) => async (dispatch) => {
+	axios.delete(`/api/todos/${id}`);
+
+	dispatch({ type: DELETE_TODO, payload: id });
 };
 
 export const reorderTodo = (id, inx) => async () => {
-	await axios.patch(`/api/todos/${id}`, { index: inx });
+	axios.patch(`/api/todos/${id}`, { index: inx });
 };
 
 export const orderList = ({ oldIndex, newIndex }) => (dispatch) => {

@@ -11,9 +11,7 @@ module.exports = (app) => {
 	});
 
 	app.get("/api/order", requireLogin, async (req, res) => {
-		const index = await Todo.find({ _user: req.user.id })
-			.sort({ index: -1 })
-			.limit(1);
+		const index = await Todo.find({ _user: req.user.id }).sort({ index: -1 });
 
 		res.send(index);
 	});
@@ -91,8 +89,16 @@ module.exports = (app) => {
 	});
 
 	app.post("/api/todos", requireLogin, async (req, res) => {
-		const { content, index, day, repeat } = req.body;
-		const todo = new Todo({ content, index, day, repeat, _user: req.user.id });
+		const { content, index, day, repeat, done, _id } = req.body;
+		const todo = new Todo({
+			content,
+			index,
+			day,
+			repeat,
+			done,
+			_id,
+			_user: req.user.id,
+		});
 
 		try {
 			await todo.save();

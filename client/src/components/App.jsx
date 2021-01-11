@@ -37,10 +37,8 @@ const App = (props) => {
 			},
 			action: { active: "#96aacb", hover: "#233043", selected: "#233043" },
 			divider: "#96aacb",
-			common: { white: red[500], black: red[500] },
-			primary: { light: red[500], main: cyan[500], contrastText: red[500] },
-			secondary: { main: red[500], contrastText: red[500] },
-			info: { main: red[500] },
+			primary: { light: red[500], main: cyan[500] },
+			secondary: { main: red[500] },
 		},
 	});
 

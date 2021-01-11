@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const todoSchema = new Schema({
+	_id: { type: Object },
 	content: String,
 	index: Number,
 	day: Date,

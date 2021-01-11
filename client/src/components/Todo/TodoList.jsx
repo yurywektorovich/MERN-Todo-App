@@ -74,10 +74,3 @@ const TodoList = (props) => {
 const mapStateToProps = ({ todos }) => ({ todos: todos.tasks });
 
 export default connect(mapStateToProps, { orderList, reorderTodo })(TodoList);
-
-// const TodoList = (props) => {
-// 	const todos = map(props.todos, ({ _id, content }, inx) => {
-// 		return <SingleTodo text={content} key={_id} id={_id} inx={inx} />;
-// 	});
-// 	return <Box>{todos}</Box>;
-// };

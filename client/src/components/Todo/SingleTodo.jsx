@@ -66,6 +66,7 @@ const SingleTodo = (props) => {
 		repeat,
 		range,
 		id,
+		inx,
 	} = props;
 	const [isEditing, setEditing] = React.useState(false);
 	const [task, setTask] = React.useState(text);
@@ -96,7 +97,7 @@ const SingleTodo = (props) => {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		if (task === "") setEditing(false);
-		updateTodo(id, task, range, currentDay, currentRepeat);
+		updateTodo(id, task, inx, currentDay, currentRepeat, done);
 		setEditing(false);
 	};
 
@@ -154,9 +155,9 @@ const SingleTodo = (props) => {
 								size="small"
 								style={{ margin: "0px 5px 0px 5px" }}
 								onClick={() => {
-									if (done) completeTodo(id, false, range);
+									if (done) completeTodo(false, id);
 									else {
-										completeTodo(id, true, range);
+										completeTodo(true, id);
 										if (repeat > 0) {
 											const oneDay = 86400000;
 											const currDay = new Date(day);
@@ -176,12 +177,12 @@ const SingleTodo = (props) => {
 						</Box>
 						<Box display="flex">
 							<Box style={{ alignSelf: "center", marginRight: 5 }}>
-								<Typography variant="h7">{labelDay}</Typography>
+								<Typography variant="body2">{labelDay}</Typography>
 							</Box>
 							<IconButton
 								size="small"
 								style={{ marginRight: 5 }}
-								onClick={() => deleteTodo(id, range)}
+								onClick={() => deleteTodo(id)}
 							>
 								<DeleteForeverOutlined fontSize="large" />
 							</IconButton>
