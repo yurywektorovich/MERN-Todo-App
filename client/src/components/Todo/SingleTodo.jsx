@@ -76,8 +76,10 @@ const SingleTodo = (props) => {
 
 	React.useEffect(() => {
 		((day) => {
+			let hours = 15;
+			if (["production", "ci"].includes(process.env.NODE_ENV)) hours = 12;
 			const currDay = new Date(day).getTime();
-			const today = new Date(new Date().setHours(15, 0, 0, 0)).getTime();
+			const today = new Date(new Date().setHours(hours, 0, 0, 0)).getTime();
 			const tomorrow = new Date(new Date(today).getTime() + 86400000).getTime();
 			const yesterday = new Date(
 				new Date(today).getTime() - 86400000
