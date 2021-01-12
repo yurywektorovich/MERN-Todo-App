@@ -25,7 +25,7 @@ module.exports = (app) => {
 	let hours = 16;
 	if (["production", "ci"].includes(process.env.NODE_ENV)) hours = 13;
 	app.get("/api/today", requireLogin, async (req, res) => {
-		const today = Date.now.setHours(hours, 0, 0, 0);
+		const today = new Date(new Date().setHours(hours, 0, 0, 0)).getTime();
 		const todos = await Todo.find({ day: today, done: false }).sort({
 			index: 1,
 		});
@@ -34,8 +34,8 @@ module.exports = (app) => {
 	});
 
 	app.get("/api/tomorrow", requireLogin, async (req, res) => {
-		const today = Date.now.setHours(hours, 0, 0, 0);
-		const tomorrow = new Date(new Date(today).getTime() + 86400000);
+		const today = new Date(new Date().setHours(hours, 0, 0, 0)).getTime();
+		const tomorrow = new Date(today + 86400000);
 		const todos = await Todo.find({ day: tomorrow, done: false }).sort({
 			index: 1,
 		});
@@ -44,9 +44,9 @@ module.exports = (app) => {
 	});
 
 	app.get("/api/week", requireLogin, async (req, res) => {
-		const today = Date.now.setHours(hours, 0, 0, 0);
-		const tomorrow = new Date(new Date(today).getTime() + 86400000);
-		const week = new Date(new Date(today).getTime() + 6.048e8);
+		const today = new Date(new Date().setHours(hours, 0, 0, 0)).getTime();
+		const tomorrow = new Date(today + 86400000);
+		const week = new Date(today + 6.048e8);
 		const todos = await Todo.find({ _user: req.user.id }).then((todos) => {
 			return Todo.find({
 				day: { $gte: tomorrow, $lte: week },
@@ -60,8 +60,8 @@ module.exports = (app) => {
 	});
 
 	app.get("/api/later", requireLogin, async (req, res) => {
-		const today = Date.now.setHours(hours, 0, 0, 0);
-		const week = new Date(new Date(today).getTime() + 6.048e8);
+		const today = new Date(new Date().setHours(hours, 0, 0, 0)).getTime();
+		const week = new Date(today + 6.048e8);
 		const todos = await Todo.find({ _user: req.user.id }).then((todos) => {
 			return Todo.find({ day: { $gt: week }, done: false }).sort({ index: 1 });
 		});
@@ -78,7 +78,7 @@ module.exports = (app) => {
 	});
 
 	app.get("/api/expired", requireLogin, async (req, res) => {
-		const today = Date.now.setHours(hours, 0, 0, 0);
+		const today = new Date(new Date().setHours(hours, 0, 0, 0)).getTime();
 		const todos = await Todo.find({
 			_user: req.user.id,
 			day: { $lt: today },
