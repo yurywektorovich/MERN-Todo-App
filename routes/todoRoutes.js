@@ -122,6 +122,3 @@ module.exports = (app) => {
 		res.send(todo);
 	});
 };
-
-// You have got to fix time problem. For now it's working but it's not fixed.
-// I have found out it by looking at created_at
