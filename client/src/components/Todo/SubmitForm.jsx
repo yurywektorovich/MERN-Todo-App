@@ -15,7 +15,9 @@ import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
 const SubmitForm = (props) => {
 	const [input, setInput] = React.useState("");
 	const [repeat, setRepeat] = React.useState(0);
-	const [day, setDay] = React.useState(new Date().setHours(16, 0, 0, 0));
+	const [day, setDay] = React.useState(
+		new Date(Date.now).setHours(16, 0, 0, 0)
+	);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
